@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { Button, Container, Grid } from "@material-ui/core";
 import Characters from "./components/Characters";
+import InputCharacter from "./components/InputCharacter";
+import CheckButtons from "./components/CheckButtons";
 
 const CHARACTERS = gql`
   query getCharacters($page: Int) {
@@ -28,13 +30,13 @@ function App() {
     },
   });
 
-  //console.log("data", data);
-
   const [inputName, setInputName] = useState("");
 
   const onChange = (e) => {
     setInputName(e.target.value);
   };
+
+  //console.log("d
 
   if (error) return <div>errors</div>;
   if (loading || !data) return <div>loading</div>;
@@ -43,24 +45,24 @@ function App() {
     <>
       <Container>
         <Grid container>
-          <Grid item xs={12}>
-            <p>Please write the search in lowercase</p>
-            <input
-              type="text"
-              name="inputName"
-              onChange={onChange}
-              placeholder="Enter a name o location"
-            />
+          <Grid item xs={12} md={3} style={{ backgroundColor: "red" }}>
+            <CheckButtons />
           </Grid>
-          {data.characters.results.map((character) => {
-            if (inputName.length < 3) return null;
-            return (
-              character.name.toLowerCase().indexOf(inputName) !== -1 && (
-                <Characters character={character} />
-              )
-            );
-          })}
-          <Grid item xs={12}>
+          <Grid item xs={12} md={9} style={{ backgroundColor: "green" }}>
+            <InputCharacter onChange={onChange} />
+          </Grid>
+          <Grid item md={3} style={{ backgroundColor: "blue" }}></Grid>
+          <Grid container xs={12} md={9} style={{ backgroundColor: "yellow" }}>
+            {data.characters.results.map((character) => {
+              if (inputName.length < 3) return null;
+              return (
+                character.name.toLowerCase().indexOf(inputName) !== -1 && (
+                  <Characters character={character} />
+                )
+              );
+            })}
+          </Grid>
+          <Grid container justify="center">
             <Button
               variant="contained"
               color="primary"
