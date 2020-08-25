@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
+import AnimatedModal from "./CharacterModal";
 
 const useStyles = makeStyles({
   root: {
@@ -20,20 +21,10 @@ const useStyles = makeStyles({
 const Characters = ({ character }) => {
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
-
-  const viewCharacter = (e) => {
-    console.log("Hola");
-    setOpen(!open);
-    if (open) {
-      console.log("Abriendo!");
-    }
-  };
-
   return (
     <Grid item xs={12} md={6} lg={4}>
       <Card key={character.id} className={classes.root}>
-        <CardActionArea onClick={viewCharacter}>
+        <CardActionArea>
           <CardMedia
             component="img"
             alt={character.name}
@@ -45,7 +36,7 @@ const Characters = ({ character }) => {
               component="h1"
               style={{ textAlign: "center" }}
             >
-              {character.name}
+              <AnimatedModal character={character} />
             </Typography>
           </CardContent>
         </CardActionArea>

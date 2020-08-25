@@ -5,13 +5,13 @@ import { Grid } from "@material-ui/core";
 const useStyles = makeStyles({
   inputBlock: {
     width: "90%",
-    margin: "1rem auto",
-    padding: ".5rem",
+    margin: "2rem auto",
+    padding: ".7rem",
     borderRadius: ".5rem",
   },
 });
 
-const InputCharacter = ({ onChange }) => {
+const InputText = ({ onChange }) => {
   const classes = useStyles();
   return (
     <>
@@ -28,4 +28,4 @@ const InputCharacter = ({ onChange }) => {
   );
 };
 
-export default InputCharacter;
+export default InputText;

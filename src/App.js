@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { Button, Container, Grid } from "@material-ui/core";
 import Characters from "./components/Characters";
-import InputCharacter from "./components/InputCharacter";
+import InputText from "./components/InputText";
 import CheckButtons from "./components/CheckButtons";
 
 const CHARACTERS = gql`
@@ -15,8 +15,9 @@ const CHARACTERS = gql`
       }
       results {
         name
-        status
-        id
+        gender
+        species
+        type
         image
       }
     }
@@ -30,13 +31,14 @@ function App() {
     },
   });
 
-  const [inputName, setInputName] = useState("");
+  const [value, setValue] = React.useState("Character");
+  const [inputValue, setInputValue] = useState("");
 
   const onChange = (e) => {
-    setInputName(e.target.value);
+    setInputValue(e.target.value);
   };
 
-  //console.log("d
+  //console.log("data", data)
 
   if (error) return <div>errors</div>;
   if (loading || !data) return <div>loading</div>;
@@ -45,22 +47,25 @@ function App() {
     <>
       <Container>
         <Grid container>
-          <Grid item xs={12} md={3} style={{ backgroundColor: "red" }}>
-            <CheckButtons />
+          <Grid item xs={12} md={3}>
+            <CheckButtons setValue={setValue} value={value} />
           </Grid>
           <Grid item xs={12} md={9} style={{ backgroundColor: "green" }}>
-            <InputCharacter onChange={onChange} />
-          </Grid>
-          <Grid item md={3} style={{ backgroundColor: "blue" }}></Grid>
-          <Grid container xs={12} md={9} style={{ backgroundColor: "yellow" }}>
-            {data.characters.results.map((character) => {
-              if (inputName.length < 3) return null;
-              return (
-                character.name.toLowerCase().indexOf(inputName) !== -1 && (
-                  <Characters character={character} />
-                )
-              );
-            })}
+            <Grid item xs={12} style={{ backgroundColor: "green" }}>
+              <InputText onChange={onChange} />
+            </Grid>
+            <Grid container xs={12} style={{ backgroundColor: "yellow" }}>
+              {data.characters.results.map((character) => {
+                if (inputValue.length < 3) return null;
+                if (value === "Character") {
+                  return (
+                    character.name.toLowerCase().indexOf(inputValue) !== -1 && (
+                      <Characters character={character} />
+                    )
+                  );
+                }
+              })}
+            </Grid>
           </Grid>
           <Grid container justify="center">
             <Button
@@ -82,7 +87,11 @@ function App() {
                 });
               }}
             >
-              Search on Page: {data.characters.info.next}
+              {data.characters.info.next !== null ? (
+                <p>Load More</p>
+              ) : (
+                <p>No more Results</p>
+              )}
             </Button>
           </Grid>
         </Grid>
