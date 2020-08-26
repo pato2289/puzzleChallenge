@@ -18,17 +18,21 @@ const useStyles = makeStyles({
   },
 });
 
-const Characters = ({ character, value }) => {
+const Locations = ({ location, value }) => {
   const classes = useStyles();
+
+  let residents = location.residents.slice(0, 5);
+
+  console.log("value en location: ", value);
 
   return (
     <Grid item xs={12} md={6} lg={4}>
-      <Card key={character.id} className={classes.root}>
+      <Card key={location.id} className={classes.root}>
         <CardActionArea>
           <CardMedia
             component="img"
-            alt={character.name}
-            image={character.image}
+            alt={location.name}
+            image="https://i.ytimg.com/vi/BSymgfwoAmI/maxresdefault.jpg"
           />
           <CardContent>
             <Typography
@@ -36,7 +40,11 @@ const Characters = ({ character, value }) => {
               component="h1"
               style={{ textAlign: "center" }}
             >
-              <AnimatedModal character={character} value={value} />
+              <AnimatedModal
+                location={location}
+                residents={residents}
+                value={value}
+              />
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -45,4 +53,4 @@ const Characters = ({ character, value }) => {
   );
 };
 
-export default Characters;
+export default Locations;

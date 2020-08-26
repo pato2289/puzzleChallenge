@@ -7,7 +7,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 
 export default function CheckButtons({ setValue, value }) {
   const handleChange = (e) => {
-    console.log("Selected: ", e.target.value);
     setValue(e.target.value);
   };
 
@@ -21,16 +20,16 @@ export default function CheckButtons({ setValue, value }) {
         onChange={handleChange}
       >
         <FormControlLabel
-          value="Character"
+          value="character"
           control={<Radio />}
           label="Character"
         />
         <FormControlLabel
-          value="Location"
+          value="location"
           control={<Radio />}
           label="Location"
         />
-        <FormControlLabel value="Episode" control={<Radio />} label="Episode" />
+        <FormControlLabel value="episode" control={<Radio />} label="Episode" />
       </RadioGroup>
     </FormControl>
   );

@@ -4,9 +4,10 @@ import { Button, Container, Grid } from "@material-ui/core";
 import Characters from "./components/Characters";
 import InputText from "./components/InputText";
 import CheckButtons from "./components/CheckButtons";
+import Locations from "./components/Locations";
 
-const CHARACTERS = gql`
-  query getCharacters($page: Int) {
+const RICKANDMORTY = gql`
+  query($page: Int) {
     characters(page: $page) {
       info {
         pages
@@ -21,24 +22,39 @@ const CHARACTERS = gql`
         image
       }
     }
+    locations(page: $page) {
+      info {
+        pages
+        next
+        count
+      }
+      results {
+        name
+        dimension
+        type
+        residents {
+          name
+        }
+      }
+    }
   }
 `;
 
 function App() {
-  const { data, error, loading, fetchMore } = useQuery(CHARACTERS, {
+  const { data, error, loading, fetchMore } = useQuery(RICKANDMORTY, {
     variables: {
       page: 1,
     },
   });
 
-  const [value, setValue] = React.useState("Character");
+  console.log("data: ", data);
+
+  const [value, setValue] = React.useState("character");
   const [inputValue, setInputValue] = useState("");
 
   const onChange = (e) => {
     setInputValue(e.target.value);
   };
-
-  //console.log("data", data)
 
   if (error) return <div>errors</div>;
   if (loading || !data) return <div>loading</div>;
@@ -55,16 +71,23 @@ function App() {
               <InputText onChange={onChange} />
             </Grid>
             <Grid container xs={12} style={{ backgroundColor: "yellow" }}>
-              {data.characters.results.map((character) => {
-                if (inputValue.length < 3) return null;
-                if (value === "Character") {
-                  return (
+              {inputValue.length < 3 ? null : value === "character" ? (
+                data.characters.results.map(
+                  (character) =>
                     character.name.toLowerCase().indexOf(inputValue) !== -1 && (
-                      <Characters character={character} />
+                      <Characters character={character} value={value} />
                     )
-                  );
-                }
-              })}
+                )
+              ) : value === "location" ? (
+                data.locations.results.map(
+                  (location) =>
+                    location.name.toLowerCase().indexOf(inputValue) !== -1 && (
+                      <Locations location={location} value={value} />
+                    )
+                )
+              ) : (
+                <p>Select episode</p>
+              )}
             </Grid>
           </Grid>
           <Grid container justify="center">
@@ -73,6 +96,7 @@ function App() {
               color="primary"
               onClick={() => {
                 const { next } = data.characters.info;
+
                 console.log(next);
 
                 fetchMore({

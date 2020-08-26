@@ -22,12 +22,24 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
     textAlign: "center",
   },
+  title: {
+    margin: "1rem",
+  },
+  image: {
+    maxWidth: 345,
+  },
 }));
 
-export default function AnimatedModal({ character }) {
-  console.log("character en modal: ", character);
+export default function AnimatedModal({
+  character,
+  location,
+  value,
+  residents,
+}) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
+  console.log("value en modal:", value);
 
   const handleOpen = () => {
     setOpen(true);
@@ -37,11 +49,19 @@ export default function AnimatedModal({ character }) {
     setOpen(false);
   };
 
+  console.log("resi", residents);
+
   return (
     <div>
       <Button onClick={handleOpen}>
         <Typography variant="h5" component="h1" style={{ textAlign: "center" }}>
-          {character.name}
+          {value === "character"
+            ? character.name.length > 12
+              ? character.name.substr(0, 12) + "..."
+              : character.name
+            : location.name.length > 12
+            ? location.name.substr(0, 12) + "..."
+            : location.name}
         </Typography>
       </Button>
 
@@ -59,18 +79,37 @@ export default function AnimatedModal({ character }) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
-            <Typography variant="h4" component="h4">
-              {character.name}
+            <Typography variant="h4" component="h4" className={classes.title}>
+              {value === "character" ? character.name : location.name}
             </Typography>
             <CardMedia
+              className={classes.image}
               component="img"
-              alt={character.name}
-              image={character.image}
+              alt={value === "character" ? character.name : location.name}
+              image={
+                value === "character"
+                  ? character.image
+                  : "https://i.ytimg.com/vi/BSymgfwoAmI/maxresdefault.jpg"
+              }
             />
-            <Typography variant="h6" component="h6">
-              Specie: {character.species} <br />
-              Gender: {character.gender} <br />
-              Type: {character.type} <br />
+            <Typography variant="h6" component="h6" className={classes.title}>
+              {value === "character" ? (
+                <p>
+                  {" "}
+                  - Specie: {character.species} <br />- Gender:{" "}
+                  {character.gender} <br />- Type: {character.type} <br />{" "}
+                </p>
+              ) : (
+                <p>
+                  {" "}
+                  - Type: {location.type} <br />- Dimension:{" "}
+                  {location.dimension} <br />- Residents:
+                  {residents.map((resident) => (
+                    <p>{resident.name}</p>
+                  ))}
+                  <br />{" "}
+                </p>
+              )}
             </Typography>
           </div>
         </Fade>
