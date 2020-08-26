@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
@@ -7,27 +7,30 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  Button,
 } from "@material-ui/core";
 import AnimatedModal from "./CharacterModal";
 
-const useStyles = makeStyles({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  paper: {
     maxWidth: 345,
-    margin: "1rem",
+    margin: ".7rem",
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    textAlign: "center",
   },
-});
+}));
 
 const Locations = ({ location, value }) => {
   const classes = useStyles();
 
-  let residents = location.residents.slice(0, 5);
+  let locationResidents = location.residents.slice(0, 5);
 
-  console.log("value en location: ", value);
+  //console.log("value en location: ", value);
 
   return (
     <Grid item xs={12} md={6} lg={4}>
-      <Card key={location.id} className={classes.root}>
+      <Card key={location.id} className={classes.paper}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -42,7 +45,7 @@ const Locations = ({ location, value }) => {
             >
               <AnimatedModal
                 location={location}
-                residents={residents}
+                locationResidents={locationResidents}
                 value={value}
               />
             </Typography>

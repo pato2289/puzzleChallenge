@@ -11,6 +11,7 @@ import {
 import AnimatedModal from "./CharacterModal";
 
 const useStyles = makeStyles((theme) => ({
+  root: {},
   paper: {
     maxWidth: 345,
     margin: ".7rem",
@@ -21,25 +22,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Characters = ({ character, value }) => {
+let defaultImage =
+  "https://static.highsnobiety.com/thumbor/hxMUNdfLGfmy_UEHCUhA_SUevnA=/fit-in/1200x720/smart/static.highsnobiety.com/wp-content/uploads/2019/07/11141629/enter-rick-morty-contest-02.jpg";
+
+const Episodes = ({ episode, value }) => {
   const classes = useStyles();
+
+  let episodeResidents = episode.characters.slice(0, 5);
 
   return (
     <Grid item xs={12} md={6} lg={4}>
-      <Card key={character.id} className={classes.paper}>
+      <Card key={episode.id} className={classes.paper}>
         <CardActionArea>
-          <CardMedia
-            component="img"
-            alt={character.name}
-            image={character.image}
-          />
+          <CardMedia component="img" alt={episode.name} image={defaultImage} />
           <CardContent>
             <Typography
               variant="h5"
               component="h1"
               style={{ textAlign: "center" }}
             >
-              <AnimatedModal character={character} value={value} />
+              <AnimatedModal
+                episode={episode}
+                value={value}
+                episodeResidents={episodeResidents}
+              />
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -48,4 +54,4 @@ const Characters = ({ character, value }) => {
   );
 };
 
-export default Characters;
+export default Episodes;

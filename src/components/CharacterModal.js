@@ -34,7 +34,9 @@ export default function AnimatedModal({
   character,
   location,
   value,
-  residents,
+  locationResidents,
+  episode,
+  episodeResidents,
 }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -49,7 +51,7 @@ export default function AnimatedModal({
     setOpen(false);
   };
 
-  console.log("resi", residents);
+  //console.log("resi", residents);
 
   return (
     <div>
@@ -59,9 +61,17 @@ export default function AnimatedModal({
             ? character.name.length > 12
               ? character.name.substr(0, 12) + "..."
               : character.name
-            : location.name.length > 12
-            ? location.name.substr(0, 12) + "..."
-            : location.name}
+            : null}
+          {value === "location"
+            ? location.name.length > 12
+              ? location.name.substr(0, 12) + "..."
+              : location.name
+            : null}
+          {value === "episode"
+            ? episode.name.length > 12
+              ? episode.name.substr(0, 12) + "..."
+              : episode.name
+            : null}
         </Typography>
       </Button>
 
@@ -80,16 +90,29 @@ export default function AnimatedModal({
         <Fade in={open}>
           <div className={classes.paper}>
             <Typography variant="h4" component="h4" className={classes.title}>
-              {value === "character" ? character.name : location.name}
+              {value === "character"
+                ? character.name
+                : value === "location"
+                ? location.name
+                : episode.name}
             </Typography>
             <CardMedia
               className={classes.image}
               component="img"
-              alt={value === "character" ? character.name : location.name}
+              alt={
+                value === "character"
+                  ? character.name
+                  : value === "location"
+                  ? location.name
+                  : episode.name
+              }
               image={
                 value === "character"
                   ? character.image
-                  : "https://i.ytimg.com/vi/BSymgfwoAmI/maxresdefault.jpg"
+                  : value === "location"
+                  ? "https://i.ytimg.com/vi/BSymgfwoAmI/maxresdefault.jpg"
+                  : //reemplazar null por una direccion de imagen de capitulo
+                    null
               }
             />
             <Typography variant="h6" component="h6" className={classes.title}>
@@ -99,12 +122,22 @@ export default function AnimatedModal({
                   - Specie: {character.species} <br />- Gender:{" "}
                   {character.gender} <br />- Type: {character.type} <br />{" "}
                 </p>
-              ) : (
+              ) : value === "location" ? (
                 <p>
                   {" "}
                   - Type: {location.type} <br />- Dimension:{" "}
                   {location.dimension} <br />- Residents:
-                  {residents.map((resident) => (
+                  {locationResidents.map((resident) => (
+                    <p>{resident.name}</p>
+                  ))}
+                  <br />{" "}
+                </p>
+              ) : (
+                <p>
+                  {" "}
+                  - Air Date: {episode.air_date} <br />- Episode:{" "}
+                  {episode.episode} <br />- Characters:
+                  {episodeResidents.map((resident) => (
                     <p>{resident.name}</p>
                   ))}
                   <br />{" "}
