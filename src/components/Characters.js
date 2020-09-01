@@ -13,7 +13,8 @@ import AnimatedModal from "./CharacterModal";
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: 345,
-    margin: ".7rem",
+    //Ver que el auto solo sea en xs
+    margin: ".7rem auto",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
@@ -25,7 +26,7 @@ const Characters = ({ character, value }) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} md={6} lg={4}>
+    <Grid item xs={12} sm={6} lg={4}>
       <Card key={character.id} className={classes.paper}>
         <CardActionArea>
           <CardMedia

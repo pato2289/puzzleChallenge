@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles({
   inputBlock: {
@@ -11,19 +10,18 @@ const useStyles = makeStyles({
   },
 });
 
-const InputText = ({ onChange }) => {
+const InputText = ({ onChange, inputValue }) => {
   const classes = useStyles();
   return (
     <>
-      <Grid container>
-        <input
-          className={classes.inputBlock}
-          type="text"
-          name="inputName"
-          onChange={onChange}
-          placeholder="Enter a name o location (lowercase)"
-        />
-      </Grid>
+      <input
+        className={classes.inputBlock}
+        type="text"
+        name="inputName"
+        onChange={onChange}
+        placeholder="Enter a name o location (lowercase)"
+        value={inputValue}
+      />
     </>
   );
 };
