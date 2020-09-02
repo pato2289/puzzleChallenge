@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     maxWidth: 345,
+    margin: "auto",
   },
 }));
 
@@ -37,6 +38,7 @@ export default function AnimatedModal({
   locationResidents,
   episode,
   episodeResidents,
+  image,
 }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -111,8 +113,7 @@ export default function AnimatedModal({
                   ? character.image
                   : value === "location"
                   ? "https://i.ytimg.com/vi/BSymgfwoAmI/maxresdefault.jpg"
-                  : //reemplazar null por una direccion de imagen de capitulo
-                    null
+                  : image
               }
             />
             <Typography variant="h6" component="h6" className={classes.title}>

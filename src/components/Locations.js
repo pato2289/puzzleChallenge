@@ -13,11 +13,19 @@ import AnimatedModal from "./CharacterModal";
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: 345,
-    margin: ".7rem",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     textAlign: "center",
+    [theme.breakpoints.down("xs")]: {
+      margin: ".7rem auto",
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: ".7rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      margin: ".7rem",
+    },
   },
 }));
 
@@ -29,7 +37,7 @@ const Locations = ({ location, value }) => {
   //console.log("value en location: ", value);
 
   return (
-    <Grid item xs={12} md={6} lg={4}>
+    <Grid item xs={12} sm={6} lg={4}>
       <Card key={location.id} className={classes.paper}>
         <CardActionArea>
           <CardMedia

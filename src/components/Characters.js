@@ -13,12 +13,19 @@ import AnimatedModal from "./CharacterModal";
 const useStyles = makeStyles((theme) => ({
   paper: {
     maxWidth: 345,
-    //Ver que el auto solo sea en xs
-    margin: ".7rem auto",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     textAlign: "center",
+    [theme.breakpoints.down("xs")]: {
+      margin: ".7rem auto",
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: ".7rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      margin: ".7rem",
+    },
   },
 }));
 

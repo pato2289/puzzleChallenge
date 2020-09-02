@@ -11,14 +11,21 @@ import {
 import AnimatedModal from "./CharacterModal";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
   paper: {
     maxWidth: 345,
-    margin: ".7rem",
     backgroundColor: theme.palette.background.paper,
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     textAlign: "center",
+    [theme.breakpoints.down("xs")]: {
+      margin: ".7rem auto",
+    },
+    [theme.breakpoints.up("sm")]: {
+      margin: ".7rem",
+    },
+    [theme.breakpoints.up("lg")]: {
+      margin: ".7rem",
+    },
   },
 }));
 
@@ -31,7 +38,7 @@ const Episodes = ({ episode, value }) => {
   let episodeResidents = episode.characters.slice(0, 5);
 
   return (
-    <Grid item xs={12} md={6} lg={4}>
+    <Grid item xs={12} sm={6} lg={4}>
       <Card key={episode.id} className={classes.paper}>
         <CardActionArea>
           <CardMedia component="img" alt={episode.name} image={defaultImage} />
@@ -45,6 +52,7 @@ const Episodes = ({ episode, value }) => {
                 episode={episode}
                 value={value}
                 episodeResidents={episodeResidents}
+                image={defaultImage}
               />
             </Typography>
           </CardContent>

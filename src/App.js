@@ -79,8 +79,6 @@ function App() {
     setInputValue("");
   };
 
-  let portada = 1;
-
   if (error) return <div>errors</div>;
   if (loading || !data) return <Cover />;
 
@@ -91,38 +89,60 @@ function App() {
           <Grid item xs={12} sm={3}>
             <CheckButtons setValue={setValue} value={value} />
           </Grid>
-          <Grid container xs={12} sm={9}>
-            <Grid item xs={12} md={8}>
+          <Grid container xs={12} sm={9} style={{ paddingLeft: "1rem" }}>
+            <Grid item xs={12}>
               <InputText onChange={onChange} inputValue={inputValue} />
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Button variant="contained" color="primary" onClick={inputReset}>
+            <Grid
+              container
+              xs={12}
+              style={{
+                width: "90%",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={inputReset}
+                style={{
+                  margin: "1rem auto",
+                  borderRadius: ".5rem",
+                }}
+              >
                 Reset
               </Button>
             </Grid>
-            <Grid container xs={12}>
+            <Grid container xs={12} style={{ marginTop: "1.3rem" }}>
               {inputValue.length < 3
                 ? null
                 : value === "character" &&
                   data.characters.results.map(
                     (character) =>
-                      character.name.toLowerCase().indexOf(inputValue) !==
-                        -1 && <Characters character={character} value={value} />
+                      character.name
+                        .toLowerCase()
+                        .indexOf(inputValue.toLocaleLowerCase()) !== -1 && (
+                        <Characters character={character} value={value} />
+                      )
                   )}
               {inputValue.length < 3
                 ? null
                 : value === "location" &&
                   data.locations.results.map(
                     (location) =>
-                      location.name.toLowerCase().indexOf(inputValue) !==
-                        -1 && <Locations location={location} value={value} />
+                      location.name
+                        .toLowerCase()
+                        .indexOf(inputValue.toLocaleLowerCase()) !== -1 && (
+                        <Locations location={location} value={value} />
+                      )
                   )}
               {inputValue.length < 3
                 ? null
                 : value === "episode" &&
                   data.episodes.results.map(
                     (episode) =>
-                      episode.name.toLowerCase().indexOf(inputValue) !== -1 && (
+                      episode.name
+                        .toLowerCase()
+                        .indexOf(inputValue.toLocaleLowerCase()) !== -1 && (
                         <Episodes episode={episode} value={value} />
                       )
                   )}
@@ -132,6 +152,7 @@ function App() {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled={data.characters.info.next === null ? true : false}
                   onClick={() => {
                     const { next } = data.characters.info;
                     console.log(next);
@@ -161,6 +182,7 @@ function App() {
                 <Button
                   variant="contained"
                   color="primary"
+                  disabled={data.locations.info.next === null ? true : false}
                   onClick={() => {
                     const { next } = data.locations.info;
                     console.log(next);
@@ -189,6 +211,7 @@ function App() {
               {inputValue.length >= 3 && value === "episode" && (
                 <Button
                   variant="contained"
+                  disabled={data.episodes.info.next === null ? true : false}
                   color="primary"
                   onClick={() => {
                     const { next } = data.episodes.info;
