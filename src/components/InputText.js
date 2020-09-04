@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   inputBlock: {
-    width: "90%",
+    width: "100%",
     margin: "1.5rem auto",
     padding: ".7rem",
     borderRadius: ".5rem",
@@ -19,7 +19,7 @@ const InputText = ({ onChange, inputValue }) => {
         type="text"
         name="inputName"
         onChange={onChange}
-        placeholder="Enter a name o location (lowercase)"
+        placeholder="Enter a name o location"
         value={inputValue}
       />
     </>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
 import { useQuery, gql } from "@apollo/client";
+import { animateScroll as scroll } from "react-scroll";
 import { Button, Container, Grid } from "@material-ui/core";
 import Characters from "./components/Characters";
 import InputText from "./components/InputText";
@@ -8,6 +8,8 @@ import CheckButtons from "./components/CheckButtons";
 import Locations from "./components/Locations";
 import Episodes from "./components/Episodes";
 import Cover from "./components/Cover";
+import LoadMoreButton from "./components/LoadMoreButton";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const RICKANDMORTY = gql`
   query($pageCharacter: Int, $pageLocation: Int, $pageEpisode: Int) {
@@ -79,6 +81,10 @@ function App() {
     setInputValue("");
   };
 
+  const onClickUp = () => {
+    scroll.scrollToTop();
+  };
+
   if (error) return <div>errors</div>;
   if (loading || !data) return <Cover />;
 
@@ -93,25 +99,43 @@ function App() {
             <Grid item xs={12}>
               <InputText onChange={onChange} inputValue={inputValue} />
             </Grid>
-            <Grid
-              container
-              xs={12}
-              style={{
-                width: "90%",
-              }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={inputReset}
-                style={{
-                  margin: "1rem auto",
-                  borderRadius: ".5rem",
-                }}
-              >
-                Reset
-              </Button>
+            <Grid container xs={12}>
+              <Grid container xs={4} sm={6}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={inputReset}
+                  style={{
+                    margin: "1rem auto",
+                    borderRadius: ".5rem",
+                  }}
+                >
+                  Reset
+                </Button>
+              </Grid>
+              <Grid container xs={8} sm={6}>
+                {inputValue.length >= 3 && value === "character" ? (
+                  <LoadMoreButton
+                    info={data.characters}
+                    fetchMore={fetchMore}
+                    filter={value}
+                  />
+                ) : value === "location" ? (
+                  <LoadMoreButton
+                    info={data.locations}
+                    fetchMore={fetchMore}
+                    filter={value}
+                  />
+                ) : value === "episode" ? (
+                  <LoadMoreButton
+                    info={data.episodes}
+                    fetchMore={fetchMore}
+                    filter={value}
+                  />
+                ) : null}
+              </Grid>
             </Grid>
+
             <Grid container xs={12} style={{ marginTop: "1.3rem" }}>
               {inputValue.length < 3
                 ? null
@@ -147,97 +171,10 @@ function App() {
                       )
                   )}
             </Grid>
-            <Grid container justify="center">
-              {inputValue.length >= 3 && value === "character" && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={data.characters.info.next === null ? true : false}
-                  onClick={() => {
-                    const { next } = data.characters.info;
-                    console.log(next);
-
-                    fetchMore({
-                      variables: {
-                        pageCharacter: next,
-                      },
-                      updateQuery: (prevResult, { fetchMoreResult }) => {
-                        fetchMoreResult.characters.results = [
-                          ...prevResult.characters.results,
-                          ...fetchMoreResult.characters.results,
-                        ];
-                        return fetchMoreResult;
-                      },
-                    });
-                  }}
-                >
-                  {data.characters.info.next !== null ? (
-                    <p>Load More Characters</p>
-                  ) : (
-                    <p>No more Results</p>
-                  )}
-                </Button>
-              )}
-              {inputValue.length >= 3 && value === "location" && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  disabled={data.locations.info.next === null ? true : false}
-                  onClick={() => {
-                    const { next } = data.locations.info;
-                    console.log(next);
-
-                    fetchMore({
-                      variables: {
-                        pageLocation: next,
-                      },
-                      updateQuery: (prevResult, { fetchMoreResult }) => {
-                        fetchMoreResult.locations.results = [
-                          ...prevResult.locations.results,
-                          ...fetchMoreResult.locations.results,
-                        ];
-                        return fetchMoreResult;
-                      },
-                    });
-                  }}
-                >
-                  {data.locations.info.next !== null ? (
-                    <p>Load More Locations</p>
-                  ) : (
-                    <p>No more Results</p>
-                  )}
-                </Button>
-              )}
-              {inputValue.length >= 3 && value === "episode" && (
-                <Button
-                  variant="contained"
-                  disabled={data.episodes.info.next === null ? true : false}
-                  color="primary"
-                  onClick={() => {
-                    const { next } = data.episodes.info;
-                    console.log(next);
-
-                    fetchMore({
-                      variables: {
-                        pageEpisode: next,
-                      },
-                      updateQuery: (prevResult, { fetchMoreResult }) => {
-                        fetchMoreResult.episodes.results = [
-                          ...prevResult.episodes.results,
-                          ...fetchMoreResult.episodes.results,
-                        ];
-                        return fetchMoreResult;
-                      },
-                    });
-                  }}
-                >
-                  {data.episodes.info.next !== null ? (
-                    <p>Load More Episodes</p>
-                  ) : (
-                    <p>No more Results</p>
-                  )}
-                </Button>
-              )}
+            <Grid container xs={12} justify="center">
+              <Button variant="contained" color="secondary" onClick={onClickUp}>
+                <ArrowUpwardIcon />
+              </Button>
             </Grid>
           </Grid>
         </Grid>
