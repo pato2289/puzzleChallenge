@@ -14,7 +14,7 @@ const LoadMoreButton = ({ info, fetchMore, filter }) => {
         disabled={info.info.next === null ? true : false}
         onClick={() => {
           const { next } = info.info;
-          console.log(next);
+          //console.log(next);
 
           fetchMore({
             variables: {
@@ -49,7 +49,7 @@ const LoadMoreButton = ({ info, fetchMore, filter }) => {
         disabled={info.info.next === null ? true : false}
         onClick={() => {
           const { next } = info.info;
-          console.log(next);
+          //console.log(next);
 
           fetchMore({
             variables: {
@@ -85,7 +85,7 @@ const LoadMoreButton = ({ info, fetchMore, filter }) => {
         }}
         onClick={() => {
           const { next } = info.info;
-          console.log(next);
+          //console.log(next);
 
           fetchMore({
             variables: {

@@ -8,7 +8,7 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
-import AnimatedModal from "./CharacterModal";
+import AnimatedModal from "./DetailModal";
 
 const useStyles = makeStyles((theme) => ({
   paper: {

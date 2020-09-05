@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   inputBlock: {
-    width: "100%",
+    width: "95%",
     margin: "1.5rem auto",
     padding: ".7rem",
     borderRadius: ".5rem",

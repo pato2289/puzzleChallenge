@@ -67,7 +67,7 @@ function App() {
     },
   });
 
-  console.log("data: ", data);
+  //console.log("data: ", data);
 
   const [value, setValue] = React.useState("character");
   const [inputValue, setInputValue] = useState("");
@@ -95,7 +95,7 @@ function App() {
           <Grid item xs={12} sm={3}>
             <CheckButtons setValue={setValue} value={value} />
           </Grid>
-          <Grid container xs={12} sm={9} style={{ paddingLeft: "1rem" }}>
+          <Grid container xs={12} sm={9}>
             <Grid item xs={12}>
               <InputText onChange={onChange} inputValue={inputValue} />
             </Grid>
